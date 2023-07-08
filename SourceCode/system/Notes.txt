@@ -1,0 +1,22 @@
+Gender
+Contact
+Address
+
+
+Customer side -- 
+	- customer.php (Home) [seller shop, seller product,]
+	- customer_map.php
+	- customer_shop.php
+
+Seller side -- 
+	- Seller.php (Home)
+
+Admin side -- 
+	- main_admin.php
+
+logo size - 49 x 52
+
+
+
+
+

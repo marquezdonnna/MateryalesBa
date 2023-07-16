@@ -1,17 +1,14 @@
-<?php 
+<?php
+
+@include 'db_conn.php';
+
 session_start();
 
-if(!isset($_SESSION['admin_name'])){
+if(!isset($_SESSION['customer_name'])){
    header('location:login_form.php');
 }
 
-
-
-include_once('config.php'); 
-$query = "SELECT * FROM user_form";
-$result = mysqli_query($conn, $query); 
-?> 
-
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,7 +16,7 @@ $result = mysqli_query($conn, $query);
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Admin</title>
+  <title>My purchase</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -64,12 +61,21 @@ $result = mysqli_query($conn, $query);
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
-
+    <div class="search-bar">
+      <form class="search-form d-flex align-items-center" method="POST" action="#">
+        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+      </form>
+    </div><!-- End Search Bar -->
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
-
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
+          </a>
+        </li><!-- End Search Icon-->
 
         <li class="nav-item dropdown">
 
@@ -216,20 +222,20 @@ $result = mysqli_query($conn, $query);
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/my.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['admin_name'] ?></span>
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['customer_name'] ?></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <span><h6><?php echo $_SESSION['admin_name'] ?></h6></span>
-              <span>admin</span>
+              <span><h6><?php echo $_SESSION['customer_name'] ?></h6></span>
+              <span>Customer</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="customer_profile.php">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -239,7 +245,7 @@ $result = mysqli_query($conn, $query);
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="customer_profile.php">
                 <i class="bi bi-gear"></i>
                 <span>Account Settings</span>
               </a>
@@ -272,132 +278,158 @@ $result = mysqli_query($conn, $query);
     </nav><!-- End Icons Navigation -->
 
   </header><!-- End Header -->
-
-  
-
  <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
 <ul class="sidebar-nav" id="sidebar-nav">
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="admin_dashboard.php">
+    <a class="nav-link collapsed" href="customer.php">
       <i class="ri-home-2-line"></i>
-      <span>Dashboard</span>
+      <span>Home</span>
     </a>
   </li><!-- End Profile Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="admin_user_information.php">
-      <i class="bi bi-question-circle"></i>
-      <span>User Information</span>
+    <a class="nav-link collapsed" href="customer_map.php">
+      <i class="ri-map-pin-line"></i>
+      <span>Map</span>
     </a>
   </li><!-- End F.A.Q Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link " href="admin_user_account.php">
-      <i class="bi bi-envelope"></i>
-      <span>User Account</span>
+    <a class="nav-link collapsed" href="customer_shop.php">
+      <i class="ri-store-2-line"></i>
+      <span>Shop</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="admin_hardware.php">
-      <i class="bi bi-card-list"></i>
-      <span>Hardware Registration</span>
+    <a class="nav-link collapsed" href="customer_purchase.php">
+      <i class="ri-shopping-cart-line"></i>
+      <span>My Purchases</span>
     </a> 
   </li><!-- End Register Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-login.html">
-      <i class="bi bi-box-arrow-in-right"></i>
-      <span>Login</span>
+    <a class="nav-link " href="customer_transact_history.php">
+      <i class="ri-history-line"></i>
+      <span>Transaction History</span>
     </a>
   </li><!-- End Login Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-error-404.html">
+    <a class="nav-link collapsed" href="customer_profile.php">
       <i class="bi bi-dash-circle"></i>
-      <span>Error 404</span>
+      <span>My Profile</span>
     </a>
   </li><!-- End Error 404 Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="pages-blank.html">
       <i class="bi bi-file-earmark"></i>
-      <span>Blank</span>
+      <span>Account Settings</span>
     </a>
   </li><!-- End Blank Page Nav -->
 
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="pages-blank.html">
+      <i class="bi bi-file-earmark"></i>
+      <span>Need Help</span>
+    </a>
+  </li><!-- End Blank Page Nav -->
+    <li class="nav-item">
+    <a class="nav-link collapsed" href="pages-blank.html">
+      <i class="bi bi-file-earmark"></i>
+      <span>Sign Out</span>
+    </a>
+  </li><!-- End Blank Page Nav -->
 </ul>
 
 </aside><!-- End Sidebar-->
-<main id="main" class="main">
+  
+  <main id="main" class="main">
 
-<div class="pagetitle">
-  <h1>User Account</h1>
-  <nav>
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-      <li class="breadcrumb-item">Users</li>
-      <li class="breadcrumb-item active">Profile</li>
-    </ol>
-  </nav>
-</div><!-- End Page Title -->
-
-
-
-
-    <section class="section">
-      <div class="row">
-        <div class="col-lg-12">
-
+    <div class="pagetitle">
+      <h1>Profile</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Users</li>
+          <li class="breadcrumb-item active">Profile</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">User Account</h5>
+              <h5 class="card-title">Default Table</h5>
 
               <!-- Default Table -->
               <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Password</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Start Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                <?php while($rows = mysqli_fetch_assoc($result)) { ?> 
-                  <tr> 
-                    <td><?php echo $rows['id']; ?></td> 
-                    <td><?php echo $rows['email']; ?></td> 
-                    <td><?php echo $rows['username']; ?></td> 
-                    <td><?php echo $rows['password']; ?></td>
-                    <td>
-                    <a href="student-view.php?id=<?= $student['id']; ?>" class="btn btn-info btn-sm">View</a>
-                    <a href="student-edit.php?id=<?= $student['id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                      <form action="code.php" method="POST" class="d-inline">
-                          <button type="submit" name="delete_student" value="<?=$student['id'];?>" class="btn btn-danger btn-sm">Delete</button>
-                      </form>
-                    </td> 
-                  </tr> 
-                <?php } ?>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Brandon Jacob</td>
+                    <td>Designer</td>
+                    <td>28</td>
+                    <td>2016-05-25</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Bridie Kessler</td>
+                    <td>Developer</td>
+                    <td>35</td>
+                    <td>2014-12-05</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Ashleigh Langosh</td>
+                    <td>Finance</td>
+                    <td>45</td>
+                    <td>2011-08-12</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td>Angus Grady</td>
+                    <td>HR</td>
+                    <td>34</td>
+                    <td>2012-06-11</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">5</th>
+                    <td>Raheem Lehner</td>
+                    <td>Dynamic Division Officer</td>
+                    <td>47</td>
+                    <td>2011-04-19</td>
+                  </tr>
                 </tbody>
               </table>
               <!-- End Default Table Example -->
             </div>
           </div>
 
-         
-        </div>
-      </div>
-    </section>
 
-</main><!-- End #main -->
 
+
+
+  </main><!-- End #main -->
   
-
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    
+  </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

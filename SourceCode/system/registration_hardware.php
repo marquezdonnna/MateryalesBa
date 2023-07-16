@@ -1,17 +1,52 @@
-<?php 
+<?php
 session_start();
 
-if(!isset($_SESSION['admin_name'])){
-   header('location:login_form.php');
+if (!isset($_SESSION['seller_name'])) {
+    header('location: login.php');
+    exit;
 }
 
+include_once 'config.php';
 
+if (isset($_POST["submit"])) {
+    $hname = mysqli_real_escape_string($conn, $_POST['hname']);
+    $address = mysqli_real_escape_string($conn, $_POST['address']);
+    $owners = mysqli_real_escape_string($conn, $_POST['owners']);
 
-include_once('config.php'); 
-$query = "SELECT * FROM user_form";
-$result = mysqli_query($conn, $query); 
-?> 
+    if (!isset($_FILES["image"]) || $_FILES["image"]["error"] === 4) {
+        echo "<script> alert('Image does not exist');</script>";
+    } else {
+        $fileName = $_FILES["image"]["name"];
+        $fileSize = $_FILES["image"]["size"];
+        $tmpName = $_FILES["image"]["tmp_name"];
 
+        $validImageExtensions = ['jpeg', 'jpg', 'png'];
+
+        $imageExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+        $imageExtension = strtolower($imageExtension);
+
+        if (!in_array($imageExtension, $validImageExtensions)) {
+            echo "<script> alert('Invalid image extension');</script>";
+        } elseif ($fileSize > 1000000) {
+            echo "<script> alert('Image size is too large');</script>";
+        } else {
+            $newImageName = uniqid() . '.' . $imageExtension;
+
+            if (move_uploaded_file($tmpName, 'uploads/' . $newImageName)) {
+                $query = "INSERT INTO registration_hardware (hardware_name, address, owners_name, image) VALUES ('$hname', '$address', '$owners', '$newImageName')";
+                if (mysqli_query($conn, $query)) {
+                    echo "<script> alert('Successfully Added'); window.location.href = 'admin_hardware.php';</script>";
+                    exit;
+                } else {
+                    echo "<script> alert('Error: " . mysqli_error($conn) . "');</script>";
+                }
+            } else {
+                echo "<script> alert('Error moving uploaded file');</script>";
+            }
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,7 +54,7 @@ $result = mysqli_query($conn, $query);
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Admin</title>
+  <title>Dashboard - NiceAdmin Bootstrap Template</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -61,15 +96,10 @@ $result = mysqli_query($conn, $query);
         <img src="assets/img/m-logo.png" alt="">
         <span class="d-none d-lg-block">MateryalesBa</span>
       </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
-
-
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
-
-
 
         <li class="nav-item dropdown">
 
@@ -216,20 +246,21 @@ $result = mysqli_query($conn, $query);
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/my.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['admin_name'] ?></span>
+            <span class="d-none d-md-block dropdown-toggle ps-2"> <?php echo $_SESSION['seller_name'] ?></span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <span><h6><?php echo $_SESSION['admin_name'] ?></h6></span>
-              <span>admin</span>
+              <!-- <h6>Donna Mae Marquez</h6> -->
+              <span><h6><?php echo $_SESSION['seller_name'] ?><h6></span>
+              <span>Seller<span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="seller_profile.php">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -239,7 +270,7 @@ $result = mysqli_query($conn, $query);
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="seller_profile.php">
                 <i class="bi bi-gear"></i>
                 <span>Account Settings</span>
               </a>
@@ -272,132 +303,58 @@ $result = mysqli_query($conn, $query);
     </nav><!-- End Icons Navigation -->
 
   </header><!-- End Header -->
+  <main id="main" class="main">
 
-  
-
- <!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
-
-<ul class="sidebar-nav" id="sidebar-nav">
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="admin_dashboard.php">
-      <i class="ri-home-2-line"></i>
-      <span>Dashboard</span>
-    </a>
-  </li><!-- End Profile Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="admin_user_information.php">
-      <i class="bi bi-question-circle"></i>
-      <span>User Information</span>
-    </a>
-  </li><!-- End F.A.Q Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link " href="admin_user_account.php">
-      <i class="bi bi-envelope"></i>
-      <span>User Account</span>
-    </a>
-  </li><!-- End Contact Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="admin_hardware.php">
-      <i class="bi bi-card-list"></i>
-      <span>Hardware Registration</span>
-    </a> 
-  </li><!-- End Register Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-login.html">
-      <i class="bi bi-box-arrow-in-right"></i>
-      <span>Login</span>
-    </a>
-  </li><!-- End Login Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-error-404.html">
-      <i class="bi bi-dash-circle"></i>
-      <span>Error 404</span>
-    </a>
-  </li><!-- End Error 404 Page Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-blank.html">
-      <i class="bi bi-file-earmark"></i>
-      <span>Blank</span>
-    </a>
-  </li><!-- End Blank Page Nav -->
-
-</ul>
-
-</aside><!-- End Sidebar-->
-<main id="main" class="main">
-
-<div class="pagetitle">
-  <h1>User Account</h1>
-  <nav>
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-      <li class="breadcrumb-item">Users</li>
-      <li class="breadcrumb-item active">Profile</li>
-    </ol>
-  </nav>
-</div><!-- End Page Title -->
-
-
-
-
-    <section class="section">
+    <div class="pagetitle">
+      <h1>Form Elements</h1>
+    </div><!-- End Page Title -->
+      <section class="section">
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-9">
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">User Account</h5>
+              <h5 class="card-title"></h5>
 
-              <!-- Default Table -->
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Password</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                <?php while($rows = mysqli_fetch_assoc($result)) { ?> 
-                  <tr> 
-                    <td><?php echo $rows['id']; ?></td> 
-                    <td><?php echo $rows['email']; ?></td> 
-                    <td><?php echo $rows['username']; ?></td> 
-                    <td><?php echo $rows['password']; ?></td>
-                    <td>
-                    <a href="student-view.php?id=<?= $student['id']; ?>" class="btn btn-info btn-sm">View</a>
-                    <a href="student-edit.php?id=<?= $student['id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                      <form action="code.php" method="POST" class="d-inline">
-                          <button type="submit" name="delete_student" value="<?=$student['id'];?>" class="btn btn-danger btn-sm">Delete</button>
-                      </form>
-                    </td> 
-                  </tr> 
-                <?php } ?>
-                </tbody>
-              </table>
-              <!-- End Default Table Example -->
+              <!-- General Form Elements -->
+        <form action="" action="" method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="hname" class="form-label">Hardware name</label>
+            <input type="text" class="form-control" id="hname" name="hname" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <input type="text" class="form-control" id="address" name="address" required>
+          </div>
+
+
+          <div class="mb-3">
+            <label for="owners" class="form-label">Owners name</label>
+            <input type="text" class="form-control" id="owners" name="owners" required>
+          </div>
+
+
+          <div class="mb-3">
+            <label for="profile-image" class="form-label">Logo </label>
+            <input type="file" class="form-control" name="image" id = "image" accept=".jpeg, .png, .jpg" value="">
+          </div>
+
+
+          <button type="submit" name ="submit"class="btn btn-primary">Submit</button>
+        </form>
+
             </div>
           </div>
 
-         
         </div>
       </div>
     </section>
-
-</main><!-- End #main -->
-
+  </main><!-- End #main -->
   
 
+  
+ 
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

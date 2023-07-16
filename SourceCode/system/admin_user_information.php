@@ -49,6 +49,9 @@ $result = mysqli_query($conn, $query);
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+    <!-- Script -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="admin_user_information_script.js"></script>
 </head>
 
 <body>
@@ -287,7 +290,7 @@ $result = mysqli_query($conn, $query);
 
   <li class="nav-item">
     <a class="nav-link " href="admin_user_information.php">
-      <i class="bi bi-question-circle"></i>
+      <i class="ri-user-line"></i>
       <span>User Information</span>
     </a>
   </li><!-- End F.A.Q Page Nav -->
@@ -300,7 +303,7 @@ $result = mysqli_query($conn, $query);
   </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="">
+    <a class="nav-link collapsed" href="admin_hardware.php">
       <i class="bi bi-card-list"></i>
       <span>Hardware Registration</span>
     </a> 
@@ -330,6 +333,10 @@ $result = mysqli_query($conn, $query);
 </ul>
 
 </aside><!-- End Sidebar-->
+
+<!-- ################################################################################### -->
+
+<!-- End Modal -->
 <main id="main" class="main">
 
 <div class="pagetitle">
@@ -343,9 +350,6 @@ $result = mysqli_query($conn, $query);
   </nav>
 </div><!-- End Page Title -->
 
-
-
-
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
@@ -355,6 +359,12 @@ $result = mysqli_query($conn, $query);
               <h5 class="card-title">User Information</h5>
 
               <!-- Default Table -->
+              <?php
+                include_once 'config.php';
+
+                $query = "SELECT * FROM user_form";
+                $query_run = mysqli_query($conn, $query);
+              ?>
               <table class="table">
                 <thead>
                   <tr>
@@ -362,24 +372,135 @@ $result = mysqli_query($conn, $query);
                     <th scope="col">Name</th>
                     <th scope="col">Gender</th>
                     <th scope="col">Address</th>
+                    <th scope="col">Contact</th>
                     <th scope="col">User Type</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
+
+                <?php
+                if($query_run)
+                {
+                    foreach($query_run as $row)
+                    {
+                ?>
+
                 <tbody>
-                <?php while($rows = mysqli_fetch_assoc($result)) { ?> 
-                  <tr> 
-                    <td><?php echo $rows['id']; ?></td> 
-                    <td><?php echo $rows['name']; ?></td> 
-                    <td><?php echo $rows['gender']; ?></td> 
-                    <td><?php echo $rows['address']; ?></td>
-                    <td><?php echo $rows['user_type']; ?></td> 
-                  </tr> 
-                <?php } ?>
+                            <tr>
+                                <td> <?php echo $row['id']; ?> </td>
+                                <td> <?php echo $row['name']; ?> </td>
+                                <td> <?php echo $row['gender']; ?> </td>
+                                <td> <?php echo $row['address']; ?> </td>
+                                <td> <?php echo $row['contact']; ?> </td>
+                                <td> <?php echo $row['user_type']; ?> </td>
+                                <td>
+                                    <button type="button" class="btn btn-info viewbtn"> VIEW </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-success editbtn"> EDIT </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger deletebtn"> DELETE </button>
+                                </td>
+                            </tr>
                 </tbody>
+              <?php           
+                    }
+                }
+                else 
+                {
+                    echo "No Record Found";
+                }
+                 ?>
+               
               </table>
-              <!-- End Default Table Example -->
+                  <!-- Edit User Modal -->
+    <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> Edit Student Data </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form action="admin_user_information_edit.php" method="POST">
+
+                    <div class="modal-body">
+
+                        <input type="hidden" name="id" id="id">
+
+                        <div class="form-group">
+                            <label> Full Name </label>
+                            <input type="text" name="name" id="name" class="form-control"
+                                placeholder="Enter First Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label> Gender </label>
+                            <input type="text" name="gender" id="gender" class="form-control"
+                                placeholder="Enter Last Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label> Address </label>
+                            <input type="text" name="address" id="address" class="form-control"
+                                placeholder="Enter Course">
+                        </div>
+
+                        <div class="form-group">
+                            <label> Contact </label>
+                            <input type="text" name="contact" id="contact" class="form-control"
+                                placeholder="Enter Phone Number">
+                        </div>
+
+                        <div class="form-group">
+                            <label> user_type </label>
+                            <input type="text" name="user_type" id="user_type" class="form-control"
+                                placeholder="Enter Phone Number">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" name="updatedata" class="btn btn-primary">Update Data</button>
+                    </div>
+                </form>
+
             </div>
-          </div>
+        </div>
+    </div>
+
+    <!-- DELETE POP UP FORM (Bootstrap MODAL) -->
+    <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> Delete Student Data </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form action="deletecode.php" method="POST">
+
+                    <div class="modal-body">
+
+                        <input type="hidden" name="delete_id" id="delete_id">
+
+                        <h4> Do you want to Delete this Data ??</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> NO </button>
+                        <button type="submit" name="deletedata" class="btn btn-primary"> Yes !! Delete it. </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
          
         </div>
@@ -388,7 +509,6 @@ $result = mysqli_query($conn, $query);
 
 </main><!-- End #main -->
 
-  
 
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -406,6 +526,56 @@ $result = mysqli_query($conn, $query);
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('.editbtn').on('click', function () {
+
+                $('#editmodal').modal('show');
+
+                $tr = $(this).closest('tr');
+
+                var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+                $('#id').val(data[0]);
+                $('#name').val(data[1]);
+                $('#gender').val(data[2]);
+                $('#address').val(data[3]);
+                $('#contact').val(data[4]);
+                $('#user_type').val(data[5]);
+            });
+        });
+    </script>
+
+        <script>
+        $(document).ready(function () {
+
+            $('.deletebtn').on('click', function () {
+
+                $('#deletemodal').modal('show');
+
+                $tr = $(this).closest('tr');
+
+                var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+                $('#id').val(data[0]);
+
+            });
+        });
+    </script>
 </body>
 
 </html>

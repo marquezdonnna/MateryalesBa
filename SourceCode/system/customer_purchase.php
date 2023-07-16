@@ -16,7 +16,7 @@ if(!isset($_SESSION['customer_name'])){
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Shop</title>
+  <title>My purchase</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -292,28 +292,28 @@ if(!isset($_SESSION['customer_name'])){
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="customer_map.php">
-      <i class="bi bi-question-circle"></i>
+      <i class="ri-map-pin-line"></i>
       <span>Map</span>
     </a>
   </li><!-- End F.A.Q Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="customer_shop.php">
-      <i class="bi bi-envelope"></i>
+      <i class="ri-store-2-line"></i>
       <span>Shop</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link " href="customer_purchase.php">
-      <i class="bi bi-card-list"></i>
+      <i class="ri-shopping-cart-line"></i>
       <span>My Purchases</span>
     </a> 
   </li><!-- End Register Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-login.html">
-      <i class="bi bi-box-arrow-in-right"></i>
+    <a class="nav-link collapsed" href="customer_transact_history.php">
+      <i class="ri-history-line"></i>
       <span>Transaction History</span>
     </a>
   </li><!-- End Login Page Nav -->
@@ -348,6 +348,18 @@ if(!isset($_SESSION['customer_name'])){
 
 </aside><!-- End Sidebar-->
   
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>My Purchase </h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Users</li>
+          <li class="breadcrumb-item active">Profile</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Bordered Tabs Justified</h5>
@@ -355,10 +367,10 @@ if(!isset($_SESSION['customer_name'])){
               <!-- Bordered Tabs Justified -->
               <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
                 <li class="nav-item flex-fill" role="presentation">
-                  <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
+                  <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true">To pay</button>
                 </li>
                 <li class="nav-item flex-fill" role="presentation">
-                  <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+                  <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Delivered</button>
                 </li>
                 <li class="nav-item flex-fill" role="presentation">
                   <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>

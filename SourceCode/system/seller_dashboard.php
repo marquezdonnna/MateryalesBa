@@ -270,63 +270,102 @@ if(!isset($_SESSION['admin_name'])){
 
   
 
- <!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
 
-<ul class="sidebar-nav" id="sidebar-nav">
+    <ul class="sidebar-nav" id="sidebar-nav">
 
-  <li class="nav-item">
-    <a class="nav-link " href="admin_dashboard.php">
-      <i class="ri-home-2-line"></i>
-      <span>Dashboard</span>
-    </a>
-  </li><!-- End Profile Page Nav -->
+      <li class="nav-item">
+        <a class="nav-link " href="seller_dashboard">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="admin_user_information.php">
-      <i class="bi bi-question-circle"></i>
-      <span>User Information</span>
-    </a>
-  </li><!-- End F.A.Q Page Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Inventory</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="components-alerts.html">
+              <i class="bi bi-circle"></i><span>Products</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-accordion.html">
+              <i class="bi bi-circle"></i><span>Orders</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-badges.html">
+              <i class="bi bi-circle"></i><span>Delivery</span>
+            </a>
+          </li>
+          <li>
+            <a href="components-breadcrumbs.html">
+              <i class="bi bi-circle"></i><span>Transaction History</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Components Nav -->
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="admin_user_account.php">
-      <i class="bi bi-envelope"></i>
-      <span>User Account</span>
-    </a>
-  </li><!-- End Contact Page Nav -->
+      
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="admin_hardware.php">
-      <i class="bi bi-card-list"></i>
-      <span>Hardware Registration</span>
-    </a> 
-  </li><!-- End Register Page Nav -->
+      <li class="nav-heading">Pages</li>
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-login.html">
-      <i class="bi bi-box-arrow-in-right"></i>
-      <span>Login</span>
-    </a>
-  </li><!-- End Login Page Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="users-profile.html">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+      </li><!-- End Profile Page Nav -->
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-error-404.html">
-      <i class="bi bi-dash-circle"></i>
-      <span>Error 404</span>
-    </a>
-  </li><!-- End Error 404 Page Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-faq.html">
+          <i class="bi bi-question-circle"></i>
+          <span>Messages</span>
+        </a>
+      </li><!-- End F.A.Q Page Nav -->
 
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-blank.html">
-      <i class="bi bi-file-earmark"></i>
-      <span>Blank</span>
-    </a>
-  </li><!-- End Blank Page Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-contact.html">
+          <i class="bi bi-envelope"></i>
+          <span>Notification</span>
+        </a>
+      </li><!-- End Contact Page Nav -->
 
-</ul>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-register.html">
+          <i class="bi bi-card-list"></i>
+          <span>Account Settings</span>
+        </a>
+      </li><!-- End Register Page Nav -->
 
-</aside><!-- End Sidebar-->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-login.html">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Sign Out</span>
+        </a>
+      </li><!-- End Login Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-error-404.html">
+          <i class="bi bi-dash-circle"></i>
+          <span>Error 404</span>
+        </a>
+      </li><!-- End Error 404 Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-blank.html">
+          <i class="bi bi-file-earmark"></i>
+          <span>Blank</span>
+        </a>
+      </li><!-- End Blank Page Nav -->
+
+    </ul>
+
+  </aside><!-- End Sidebar-->
   <main id="main" class="main">
 
     <div class="pagetitle">

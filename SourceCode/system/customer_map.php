@@ -292,28 +292,28 @@ if(!isset($_SESSION['customer_name'])){
 
   <li class="nav-item">
     <a class="nav-link " href="customer_map.php">
-      <i class="bi bi-question-circle"></i>
+      <i class="ri-map-pin-line"></i>
       <span>Map</span>
     </a>
   </li><!-- End F.A.Q Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="customer_shop.php">
-      <i class="bi bi-envelope"></i>
+      <i class="ri-store-2-line"></i>
       <span>Shop</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="pages-register.html">
-      <i class="bi bi-card-list"></i>
+      <i class="ri-shopping-cart-line"></i>
       <span>My Purchases</span>
     </a> 
   </li><!-- End Register Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-login.html">
-      <i class="bi bi-box-arrow-in-right"></i>
+    <a class="nav-link collapsed" href="customer_transact_history.php">
+      <i class="ri-history-line"></i>
       <span>Transaction History</span>
     </a>
   </li><!-- End Login Page Nav -->

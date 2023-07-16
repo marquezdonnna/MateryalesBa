@@ -7,7 +7,9 @@ session_start();
 if(!isset($_SESSION['customer_name'])){
    header('location:login_form.php');
 }
-
+include_once('config.php');
+$query = "SELECT * FROM registration_hardware";
+$result = mysqli_query($conn, $query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +18,7 @@ if(!isset($_SESSION['customer_name'])){
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Shop</title>
+  <title>Shop </title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -292,28 +294,28 @@ if(!isset($_SESSION['customer_name'])){
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="customer_map.php">
-      <i class="bi bi-question-circle"></i>
+      <i class="ri-map-pin-line"></i>
       <span>Map</span>
     </a>
   </li><!-- End F.A.Q Page Nav -->
 
   <li class="nav-item">
     <a class="nav-link " href="customer_shop.php">
-      <i class="bi bi-envelope"></i>
+      <i class="ri-store-2-line"></i>
       <span>Shop</span>
     </a>
   </li><!-- End Contact Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="customer_purchase.php">
-      <i class="bi bi-card-list"></i>
+    <a class="nav-link collapsed" href="pages-register.html">
+      <i class="ri-shopping-cart-line"></i>
       <span>My Purchases</span>
     </a> 
   </li><!-- End Register Page Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" href="pages-login.html">
-      <i class="bi bi-box-arrow-in-right"></i>
+    <a class="nav-link collapsed" href="customer_transact_history.php">
+      <i class="ri-history-line"></i>
       <span>Transaction History</span>
     </a>
   </li><!-- End Login Page Nav -->
@@ -347,15 +349,44 @@ if(!isset($_SESSION['customer_name'])){
 </ul>
 
 </aside><!-- End Sidebar-->
-  
-  
-            </div>
-          </div><!-- End News & Updates -->
+  <main id="main" class="main">
 
-        </div><!-- End Right side columns -->
+    <div class="pagetitle">
+      <h1>SHOP</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Users</li>
+          <li class="breadcrumb-item active">Profile</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->  
+    <div class="container">
+      <div class="row">
+
+      <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+      <div class="card" style="width: 18rem;">
+        <img src="uploads/<?php echo $row["image"]; ?>" title="<?php echo $row['image']; ?>">
+        <div class="card-body">
+          <h5 class="card-title"><?php echo $row["hardware_name"]; ?></h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">An item</li>
+          <li class="list-group-item">A second item</li>
+          <li class="list-group-item">A third item</li>
+        </ul>
+        <div class="card-body">
+          <button type="submit" class="btn btn-success btn-sm">Delete</button>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+      <?php } ?>
+
 
       </div>
-    </section>
+    </div>
+
 
   </main><!-- End #main -->
   

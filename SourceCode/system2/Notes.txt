@@ -1,0 +1,73 @@
+Gender
+Contact
+Address
+
+
+Customer side -- 
+	- customer.php (Home) [seller shop, seller product,]
+	- customer_map.php
+	- customer_shop.php
+
+Seller side -- 
+	- Seller.php (Home)
+
+Admin side -- 
+	- main_admin.php
+
+logo size - 49 x 52
+
+
+
+User table
+Id
+Fullname
+Gender
+Address
+Contact
+Email
+Username
+Password
+User Type
+
+Admin table
+Id
+User Id
+Date
+
+Customer table
+Id
+User Id
+Material Id
+
+Hardware Store table
+Hardware name
+Address
+Owners name
+
+Order table
+Id
+Customer Id
+Material Id
+Quantity
+Order date
+Order amount
+
+Material table
+Id
+Material name
+Price
+Size
+Description
+
+Material list table
+Id
+Material name
+Size
+Quantity
+Description
+
+Delivery table
+Id
+Order Id
+Customer Id
+Address
